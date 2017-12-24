@@ -3,7 +3,6 @@ package com.dao;
 import java.util.ArrayList;
 
 import com.bean.User;
-import com.tools.AcountNum;
 import com.tools.Input;
 import com.tools.Time;
 
@@ -13,35 +12,33 @@ public class Bank {
      */
     public User singIn() {
         //在数据库中插入新空用户，自动生成ID序列号
-        Userdao.createNewUser();
+        UserOperation.createNewUser();
         //创建帐号对象
         User user_new = new User();
-//		int serialnum=Userdao.getSerial();
-        //使用ID序列号生成ID帐号
-//		String id=AcountNum.get(serialnum);
-        //创建ID
-        //在数据库中添加帐号的ID
-//		Userdao.addUser(id,serialnum);
-        String id = Userdao.addUser();
+        String id = UserOperation.addUser();
         user_new.setId(id);
         //在数据库中创建该用户的日志表
-        Userdao.createlog(id);
+        UserOperation.createlog(id);
 
         System.out.println("开始用户注册，请输入你的名字：");
         //创建姓名
         user_new.setName(Input.getString());
         //更新数据库
-        Userdao.updataUser(user_new);
+        UserOperation.updataUser(user_new);
         //创建密码
         user_new.setPassword(Input.getPassword());
-        //输入身份证号
-        System.out.println("开始用户注册，请输入你的名字：");
+        //输入身份证号,并自动生成性别和年龄信息
+        user_new.setID_num(Input.getID()); // 123456199801228042
+        user_new.setAge();
+        user_new.setSex();
         //输入手机号
-        user_new.setPhone_num(Input.getMobileNum());
+        user_new.setPhone_num(Input.getMobileNum()); // 15912344409
+        //输入地址
+        user_new.setRegistered_city("杭州");
         //在数据库中记录登录日志
-        Userdao.addLogs(id, "于" + Time.getDateTimeNow() + "  创建帐号:" + id);
+        UserOperation.addLogs(id, "于" + Time.getDateTimeNow() + "  创建帐号:" + id);
         //更新数据库
-        Userdao.updataUser(user_new);
+        UserOperation.updataUser(user_new);
         System.out.println("用户创建成功，您的帐号id为:" + id + ",是否进行存款（y/n）:");
         //键入key判断是否预存款
         String key = Input.getY();
@@ -52,13 +49,13 @@ public class Bank {
             //创建预存款
             user_new.setBalance(prestore);
             //更新数据库
-            Userdao.updataUser(user_new);
+            UserOperation.updataUser(user_new);
             System.out.println("预存款：" + prestore + " 元,操作成功!");
             //记录预存款日志
-            Userdao.addLogs(id, "于" + Time.getDateTimeNow() + "  预存:" + prestore + " 元");
+            UserOperation.addLogs(id, "于" + Time.getDateTimeNow() + "  预存:" + prestore + " 元");
         }
         //记录第一次的登录
-        Userdao.addLogs(id, "于" + Time.getDateTimeNow() + "  第一次登录系统。");
+        UserOperation.addLogs(id, "于" + Time.getDateTimeNow() + "  第一次登录系统。");
         System.out.println("注册完成！感谢使用本银行账户。");
         return user_new;
     }
@@ -70,7 +67,7 @@ public class Bank {
 
         System.out.println("请输入帐号:");
         String id_login = Input.getString();
-        User user_login = Userdao.findUser(id_login);
+        User user_login = UserOperation.findUser(id_login);
         System.out.println("请输入密码:");
         String pws_login = Input.getString();
         //判断账户是否存在、密码是否匹配
@@ -78,7 +75,7 @@ public class Bank {
 
             System.out.println("登录成功！当前帐号为：" + id_login);
             //记录登录日志
-            Userdao.addLogs(user_login.getId(), "于" + Time.getDateTimeNow() + "  登录系统。");
+            UserOperation.addLogs(user_login.getId(), "于" + Time.getDateTimeNow() + "  登录系统。");
         } else System.out.println("帐号或密码错误，登录失败。");
         return user_login;
     }
@@ -93,9 +90,9 @@ public class Bank {
         //操作存款
         user_LoginNow.setBalance(user_LoginNow.getBalance() + money_deposit);
         //更新数据库
-        Userdao.updataUser(user_LoginNow);
+        UserOperation.updataUser(user_LoginNow);
         //记录存款日志
-        Userdao.addLogs(user_LoginNow.getId(), "于" + Time.getDateTimeNow() + "  存入:" + money_deposit + " 元。");
+        UserOperation.addLogs(user_LoginNow.getId(), "于" + Time.getDateTimeNow() + "  存入:" + money_deposit + " 元。");
         System.out.println("存款成功");
 
     }
@@ -112,9 +109,9 @@ public class Bank {
             //取款操作
             user_LoginNow.setBalance(user_LoginNow.getBalance() - money_draw);
             //更新数据库
-            Userdao.updataUser(user_LoginNow);
+            UserOperation.updataUser(user_LoginNow);
             //记录取款日志
-            Userdao.addLogs(user_LoginNow.getId(), "与" + Time.getDateTimeNow() + " 取款:" + money_draw + " 元。");
+            UserOperation.addLogs(user_LoginNow.getId(), "与" + Time.getDateTimeNow() + " 取款:" + money_draw + " 元。");
             System.out.println("取款成功!");
         } else System.out.println("取款失败！余额不足。");
 
@@ -137,7 +134,7 @@ public class Bank {
         System.out.println("请输入转账账户的姓名:");
         String name_transfer = Input.getString();
         //从数据库查找转账帐号
-        User user_transfer = Userdao.findUser(id_transfer);
+        User user_transfer = UserOperation.findUser(id_transfer);
         System.out.println("请输入转账金额：");
         double money_transfer = Input.get(0.1);
         //判断转账id与姓名是否相符
@@ -147,15 +144,15 @@ public class Bank {
                 //操作转账
                 user_transfer.setBalance(user_transfer.getBalance() + money_transfer);
                 //更新数据库(被转账人)
-                Userdao.updataUser(user_transfer);
+                UserOperation.updataUser(user_transfer);
                 //记录被转账人日志
-                Userdao.addLogs(user_transfer.getId(), "于" + Time.getDateTimeNow() + "  由账户:" + user_LoginNow.getId() + " " + user_LoginNow.getName() + "，转帐入：" + money_transfer + " 元。");
+                UserOperation.addLogs(user_transfer.getId(), "于" + Time.getDateTimeNow() + "  由账户:" + user_LoginNow.getId() + " " + user_LoginNow.getName() + "，转帐入：" + money_transfer + " 元。");
                 //操作扣款
                 user_LoginNow.setBalance(user_LoginNow.getBalance() - money_transfer);
                 //更新数据库(本帐号)
-                Userdao.updataUser(user_LoginNow);
+                UserOperation.updataUser(user_LoginNow);
                 //记录本账号账转账日志
-                Userdao.addLogs(user_LoginNow.getId(), "于" + Time.getDateTimeNow() + "  转出账户:" + user_transfer.getId() + " " + user_transfer.getName() + "," + money_transfer + " 元。");
+                UserOperation.addLogs(user_LoginNow.getId(), "于" + Time.getDateTimeNow() + "  转出账户:" + user_transfer.getId() + " " + user_transfer.getName() + "," + money_transfer + " 元。");
 
 
                 System.out.println("转账成功！向" + user_transfer.getName() + "转账:" + money_transfer + " 元。");
@@ -170,7 +167,7 @@ public class Bank {
     public void showLogs(User user_LoginNow) {
         System.out.println("操作日志如下：");
         //获取日志
-        ArrayList<String> logs = Userdao.getLog(user_LoginNow.getId());
+        ArrayList<String> logs = UserOperation.getLog(user_LoginNow.getId());
         for (int i = 0; i < logs.size(); i++) {
             //按序号输出日志
             System.out.println(i + 1 + "." + logs.get(i));
@@ -182,8 +179,20 @@ public class Bank {
      */
     public void Logout(User user_LoginNow) {
         //记录登出系统时间
-        Userdao.addLogs(user_LoginNow.getId(), "于" + Time.getDateTimeNow() + "  登出系统。");
+        UserOperation.addLogs(user_LoginNow.getId(), "于" + Time.getDateTimeNow() + "  登出系统。");
         //将当前登录清除
         user_LoginNow = null;
     }
+
+    //查询信息
+    public void showMessage(User user_LoginNow){
+        System.out.println("卡号： "+user_LoginNow.getId());
+        System.out.println("姓名： "+user_LoginNow.getName());
+        System.out.println("性别： "+user_LoginNow.getSex());
+        System.out.println("年龄： "+user_LoginNow.getAge());
+        System.out.println("身份证： "+user_LoginNow.getID_num());
+        System.out.println("注册城市： "+user_LoginNow.getRegistered_city());
+    }
 }
+
+

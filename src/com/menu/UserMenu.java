@@ -24,11 +24,12 @@ public class UserMenu {
 		System.out.print("  3.存款");
 		System.out.print("  4.转账");
 		System.out.print("  5.查询日志");
-		System.out.print("  6.退出\n");
+		System.out.print("  6.查询信息");
+		System.out.print("  7.退出\n");
 		System.out.println("**************************");
 		System.out.print("请输入操作功能:");
 		//键入操作功能
-		key=Input.get(1,6);
+		key=Input.get(1,7);
 		
 		switch(key){
 		case 1:
@@ -46,7 +47,10 @@ public class UserMenu {
 		case 5:
 			bank.showLogs(user_LoginNow);//查询日志
 			break;
-		case 6:
+        case 6:
+            bank.showMessage(user_LoginNow);
+            break;
+		case 7:
 			bank.Logout(user_LoginNow);//退出
 			flag=false;
 			break;

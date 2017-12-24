@@ -20,14 +20,13 @@ public class CheckUtils {
 			return m.matches();
 		}
 	/**
-	 * 判断是否符合email规范
-	 * @param email 需要衍生的email字符串
-	 * @return 符合返回true，否则返回false
+	 *
+	 *
 	 */
-	public static boolean isEmailLegal(String email){
-		String regExp ="\\w+\\x40\\w+\\x2e\\w+";
-		Pattern p=Pattern.compile(regExp);
-		Matcher m=p.matcher(email);
+	public static boolean isChinaIDCardNum(String IDNum) {
+		String regExp = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+		Pattern p = Pattern.compile(regExp);
+		Matcher m = p.matcher(IDNum);
 		return m.matches();
 	}
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import com.bean.User;
 
 
-public class Userdao {
+public class UserOperation {
     /**
      * 根据id创建log表
      *
@@ -124,7 +124,6 @@ public class Userdao {
                         "' ,age ='" + user.getAge() +
                         "' ,sex='" + user.getSex() +
                         "' WHERE id = " + user.getId() + ";";
-//                        "' WHERE id = " + "100000000000000009"+ ";";
         Statement stat = null;
         try {
             stat = conn.createStatement();

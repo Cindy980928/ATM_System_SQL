@@ -14,13 +14,13 @@ public class CreateTable {
     public static void main(String[] args) {
         Connection conn = DBUtils.getConnection();
         String sql = "CREATE TABLE IF NOT EXISTS `user` (" +
-                "`ID_num`INT(11) NOT NULL, " +
+                "`ID_num` VARCHAR (255) NOT NULL, " +
                 "`name` VARCHAR ( 255 ) NOT NULL," +
                 "`sex` VARCHAR ( 255 ) NOT NULL," +
                 "`age` VARCHAR ( 255 ) NOT NULL," +
                 "`balance` VARCHAR ( 255 ) NOT NULL," +
                 "`password` VARCHAR ( 255 ) NOT NULL," +
-                "`id` BIGINT ( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT," +
+                "`id` BIGINT ( 18 ) UNSIGNED NOT NULL AUTO_INCREMENT," +
                 "`registered_city` VARCHAR ( 255 ) NOT NULL," +
                 "`phone_num` VARCHAR ( 255 ) NOT NULL," +
                 "PRIMARY KEY ( `id` ) " +

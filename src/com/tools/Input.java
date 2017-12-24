@@ -1,6 +1,9 @@
 package com.tools;
 
 import java.util.Scanner;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * 各种控制台输入方法包装类
@@ -195,6 +198,22 @@ public class Input {
                 System.out.println("两次输入的密码不一致，请重新输入:");
             } else
                 return pwd_rept;
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public static String getID() {
+        String num;
+        System.out.println("请输入你的身份证号：");
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            num = sc.next();
+            if (CheckUtils.isChinaIDCardNum(num))
+                return num;
+            System.out.println("身份证号有误，请重新输入");
         }
     }
 

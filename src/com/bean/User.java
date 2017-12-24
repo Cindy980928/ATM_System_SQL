@@ -1,96 +1,110 @@
 package com.bean;
 
+import java.util.Calendar;
 import java.util.Objects;
 
+
 public class User {
-	private String name="";                   //姓名
-	private String id="";                     //卡号
-	private String password="";              //密码
-	private String age="";                   //年龄
-    private String ID_num="";               //身份证号
-    private String sex="";                  //性别
-    private String phone_num="";           //电话号码
-    private String registered_city="";    //注册城市
-    private double balance=0;              //余额
-	//getter and setter
+    private String name = "";                   //姓名
+    private String id = "";                     //卡号
+    private String password = "";              //密码
+    private String age = "";                   //年龄
+    private String ID_num = "";               //身份证号
+    private String sex = "";                  //性别
+    private String phone_num = "";           //电话号码
+    private String registered_city = "";    //注册城市
+    private double balance = 0;              //余额
+    //getter and setter
 
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getAge() {
-		return age;
-	}
+    public String getAge() {
+        return age;
+    }
 
-	public void setAge(String age) {
-		this.age = age;
-	}
+    public void setAge() {
+        Calendar now = Calendar.getInstance();
+        String year = ID_num.substring(6, 10);
+        this.age = "" + (now.get(Calendar.YEAR) - Integer.parseInt(year));
 
-	public String getID_num() {
-		return ID_num;
-	}
+    }
 
-	public void setID_num(String ID_num) {
-		this.ID_num = ID_num;
-	}
+    public void setAge(String age) {
+        this.age = age;
+    }
 
-	public String getSex() {
-		return sex;
-	}
+    public String getID_num() {
+        return ID_num;
+    }
 
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+    public void setID_num(String ID_num) {
+        this.ID_num = ID_num;
+    }
 
-	public String getPhone_num() {
-		return phone_num;
-	}
+    public String  getSex() {
+        return sex;
+    }
 
-	public void setPhone_num(String phone_num) {
-		this.phone_num = phone_num;
-	}
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-	public String getRegistered_city() {
-		return registered_city;
-	}
+    public void setSex() {
+        String s = ID_num.substring(16);
+        sex = Integer.parseInt(s) % 2 == 0 ? "女" : "男";
+    }
 
-	public void setRegistered_city(String registered_city) {
-		this.registered_city = registered_city;
-	}
+    public String getPhone_num() {
+        return phone_num;
+    }
 
-	public double getBalance() {
-		return balance;
-	}
+    public void setPhone_num(String phone_num) {
+        this.phone_num = phone_num;
+    }
 
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
+    public String getRegistered_city() {
+        return registered_city;
+    }
 
-	//构造器
-	public User() {
-	}
-	
+    public void setRegistered_city(String registered_city) {
+        this.registered_city = registered_city;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    //构造器
+    public User() {
+    }
+
 //	public User(String name, String id, String password, double balance) {
 //		this.name = name;
 //		this.id = id;
