@@ -10,21 +10,21 @@ public class CreateTable {
     /**
      * 建user表
      *
-     * @param args
      */
     public static void main(String[] args) {
         Connection conn = DBUtils.getConnection();
         String sql = "CREATE TABLE IF NOT EXISTS `user` (" +
-                "`ID_num`  INT NOT NULL AUTO_INCREMENT," + // 身份证号
-                "PRIMARY KEY(`ID_num`)," +
-                "`name`  varchar(255)  NOT NULL ," +
-                "`sex`  varchar(255)  NOT NULL ," +
-                "`age`  varchar(255)  NOT NULL ," +
-                "`balance`  varchar(255)  NOT NULL," +
-                "`password`  varchar(255)  NOT NULL," +
-                "`card_num` varchar(255)  NOT NULL ," + // 银行卡号
-                "`registered_city`  varchar(255)  NOT NULL," +
-                "`phone_num`  varchar(255)  NOT NULL);";
+                "`ID_num`INT(11) NOT NULL, " +
+                "`name` VARCHAR ( 255 ) NOT NULL," +
+                "`sex` VARCHAR ( 255 ) NOT NULL," +
+                "`age` VARCHAR ( 255 ) NOT NULL," +
+                "`balance` VARCHAR ( 255 ) NOT NULL," +
+                "`password` VARCHAR ( 255 ) NOT NULL," +
+                "`id` BIGINT ( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT," +
+                "`registered_city` VARCHAR ( 255 ) NOT NULL," +
+                "`phone_num` VARCHAR ( 255 ) NOT NULL," +
+                "PRIMARY KEY ( `id` ) " +
+                ") ENGINE = INNODB AUTO_INCREMENT = 10000000000000000 DEFAULT CHARSET = utf8;";
         Statement stat = null;
         try {
             stat = conn.createStatement();

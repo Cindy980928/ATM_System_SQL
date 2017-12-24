@@ -8,11 +8,12 @@ public class UserMenu {
 	/**
 	 * 进入用户菜单
 	 */
-	public void UserSatrt(User user_LoginNow){
+	public void UserStart(User user_LoginNow){
 	
 	boolean flag=true;
 	//若登录不成功返回上一级菜单
-	if(user_LoginNow==null)flag=false;
+	if(user_LoginNow==null)
+		flag=false;
 	int key=0;
 	Bank bank=new Bank();
 	while(flag){

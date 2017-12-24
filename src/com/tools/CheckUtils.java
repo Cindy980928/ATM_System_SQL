@@ -14,7 +14,7 @@ public class CheckUtils {
 	 * @return 符合返回true，否则返回false
 	 */
 	public static boolean isChinaPhoneLegal(String PhoneNum){
-			String regExp ="^((12[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$";
+			String regExp ="^1((3[0-9]|4[57]|5[0-35-9]|7[0678]|8[0-9])\\d{8}$)";
 			Pattern p=Pattern.compile(regExp);
 			Matcher m=p.matcher(PhoneNum);
 			return m.matches();

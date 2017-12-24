@@ -14,13 +14,12 @@ public class Userdao {
      * 根据id创建log表
      *
      * @param id 指定要创建的的id号
-     * @return void
      */
     public static void createlog(String id) {
         //获取连接
         Connection conn = DBUtils.getConnection();
         //创建sql语句
-        String sql = "CREATE TABLE " + id + "Logs" + "(log varchar(255));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + id + "Logs" + "(log varchar(255));";
         //创建statement
         Statement stat = null;
         try {
@@ -38,7 +37,8 @@ public class Userdao {
      */
     public static void createNewUser() {
         Connection conn = DBUtils.getConnection();
-        String sql = "INSERT User (id,name,password,balance) VALUE(null,null,null,null);";
+//        String sql = "INSERT User (id,name,password,balance) VALUE(null,null,null,null);";
+        String sql = "INSERT User (id,name,sex,ID_num,age,registered_city,phone_num,password,balance) VALUE(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);";
         Statement stat = null;
         try {
             stat = conn.createStatement();
@@ -51,7 +51,6 @@ public class Userdao {
     /**
      * 根据id查找数据库中的帐号
      *
-     * @param id
      * @return 返回对应id帐号的User对象，如果不存在返回null
      */
     public static User findUser(String id) {
@@ -59,7 +58,7 @@ public class Userdao {
             return null;
         }
         Connection conn = DBUtils.getConnection();
-        String sql = "select * from User WHERE card_num='" + id + "'; ";
+        String sql = "select * from User WHERE id='" + id + "'; ";
         Statement stat = null;
         User u = new User();
         try {
@@ -69,7 +68,7 @@ public class Userdao {
 
             while (rs.next()) {
 
-                u.setId(rs.getString("card_num"));
+                u.setId(rs.getString("id"));
                 u.setName(rs.getString("name"));
                 u.setPassword(rs.getString("password"));
                 u.setBalance(rs.getDouble("balance"));
@@ -88,20 +87,24 @@ public class Userdao {
 
     /**
      * 设置空帐号ID，用于注册，正式添加用户
-     *
-     * @param id        根据ID序列号生成的ID帐号
-     * @param serialNum
      */
-    public static void addUser(String id, int serialNum) {
+//    public static void addUser(String id, int serialNum) {
+    public static String addUser() {
         Connection conn = DBUtils.getConnection();
-        String sql_data = "UPDATE User SET ID_num='" + id + "' WHERE serialnum ='" + serialNum + "';";
+//        String sql_data = "UPDATE User SET id='" + id + "' WHERE serialnum ='" + serialNum + "';";
+        String sql_data = "SELECT * FROM User WHERE name IS NULL;";
         Statement stat = null;
+        String id = "";
         try {
             stat = conn.createStatement();
-            stat.execute(sql_data);
+            ResultSet rs = stat.executeQuery(sql_data);
+            while (rs.next()) {
+                id = rs.getString("id");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
     /**
@@ -112,15 +115,16 @@ public class Userdao {
     public static void updataUser(User user) {
         Connection conn = DBUtils.getConnection();
         String sql_data =
-                "INSERT user SET name='" + user.getName() +
-                "' ,password='" + user.getPassword() +
-                "' ,balance='" + user.getBalance() +
-                "' ,card_num ='" + user.getId() +
-                "' ,ID_num ='" + user.getID_num() +
-                "' ,phone_num ='" + user.getPhone_num() +
-                "' ,registered_city ='" + user.getRegistered_city() +
-                "' ,age ='" + user.getAge() +
-                "' ,sex='" + user.getSex() +"';";
+                "UPDATE User SET name='" + user.getName() +
+                        "' ,password='" + user.getPassword() +
+                        "' ,balance='" + user.getBalance() +
+                        "' ,ID_num ='" + user.getID_num() +
+                        "' ,phone_num ='" + user.getPhone_num() +
+                        "' ,registered_city ='" + user.getRegistered_city() +
+                        "' ,age ='" + user.getAge() +
+                        "' ,sex='" + user.getSex() +
+                        "' WHERE id = " + user.getId() + ";";
+//                        "' WHERE id = " + "100000000000000009"+ ";";
         Statement stat = null;
         try {
             stat = conn.createStatement();
@@ -128,7 +132,6 @@ public class Userdao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -185,7 +188,7 @@ public class Userdao {
     public static int getSerial() {
         int serialNum = 0;
         Connection conn = DBUtils.getConnection();
-        String sql = "select * from User Where id is null ;";
+        String sql = "SELECT * FROM User WHERE id IS NULL ;";
         Statement stat = null;
         try {
             stat = conn.createStatement();
@@ -202,7 +205,6 @@ public class Userdao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        return serialNum;
         return serialNum;
     }
 

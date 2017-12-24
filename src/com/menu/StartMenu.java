@@ -27,10 +27,10 @@ public class StartMenu {
 		
 		switch(key){
 		case 1: 
-			menu.UserSatrt(bank.singIn());// 注册
+			menu.UserStart(bank.singIn());// 注册
 			break;
 		case 2: 
-			menu.UserSatrt(bank.login());//登录
+			menu.UserStart(bank.login());//登录
 			break;
 		case 3: 
 			flag=false;
