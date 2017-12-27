@@ -38,7 +38,7 @@ public class UserOperation {
     public static void createNewUser() {
         Connection conn = DBUtils.getConnection();
 //        String sql = "INSERT User (id,name,password,balance) VALUE(null,null,null,null);";
-        String sql = "INSERT User (id,name,sex,ID_num,age,registered_city,phone_num,password,balance) VALUE(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);";
+        String sql = "INSERT User (id,name,sex,ID_num,age,registered_city,adress,phone_num,password,balance) VALUE(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);";
         Statement stat = null;
         try {
             stat = conn.createStatement();
@@ -73,6 +73,7 @@ public class UserOperation {
                 u.setPassword(rs.getString("password"));
                 u.setBalance(rs.getDouble("balance"));
                 u.setAge(rs.getString("age"));
+                u.setAdress(rs.getString("adress"));
                 u.setRegistered_city(rs.getString("registered_city"));
                 u.setID_num(rs.getString("ID_num"));
                 u.setPhone_num(rs.getString("phone_num"));
@@ -88,10 +89,8 @@ public class UserOperation {
     /**
      * 设置空帐号ID，用于注册，正式添加用户
      */
-//    public static void addUser(String id, int serialNum) {
     public static String addUser() {
         Connection conn = DBUtils.getConnection();
-//        String sql_data = "UPDATE User SET id='" + id + "' WHERE serialnum ='" + serialNum + "';";
         String sql_data = "SELECT * FROM User WHERE name IS NULL;";
         Statement stat = null;
         String id = "";

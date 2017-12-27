@@ -14,9 +14,18 @@ public class User {
     private String phone_num = "";           //电话号码
     private String registered_city = "";    //注册城市
     private double balance = 0;              //余额
+    private String adress="";                //家庭住址
+
+
     //getter and setter
 
+    public String getAdress() {
+        return adress;
+    }
 
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
     public String getName() {
         return name;
     }
@@ -105,14 +114,8 @@ public class User {
     public User() {
     }
 
-//	public User(String name, String id, String password, double balance) {
-//		this.name = name;
-//		this.id = id;
-//		this.password = password;
-//		this.balance = balance;
-//	}
 
-    public User(String name, String id, String password, String age, String ID_num, String sex, String phone_num, String registered_city, double balance) {
+    public User(String name, String id, String password, String age, String ID_num, String sex, String phone_num, String registered_city, double balance, String adress) {
         this.name = name;
         this.id = id;
         this.password = password;
@@ -122,6 +125,7 @@ public class User {
         this.phone_num = phone_num;
         this.registered_city = registered_city;
         this.balance = balance;
+        this.adress = adress;
     }
 
     @Override

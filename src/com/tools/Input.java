@@ -13,10 +13,6 @@ import java.util.Calendar;
 public class Input {
     /**
      * 获取[start,end] 范围内的整数
-     *
-     * @param start 范围的起始
-     * @param end   范围的结束值
-     * @return Int型的所输入的值
      */
     public static int get(int start, int end) {
         @SuppressWarnings("resource")
@@ -166,7 +162,7 @@ public class Input {
      */
     public static String getMobileNum() {
         String num = null;
-        System.out.println("请输入你的手机号码：");
+        System.out.println("请输入您的手机号码：");
         while (true) {
             @SuppressWarnings("resource")
             Scanner sc = new Scanner(System.in);
@@ -202,12 +198,12 @@ public class Input {
     }
 
     /**
-     *
+     *获取合法身份证号
      *
      */
     public static String getID() {
         String num;
-        System.out.println("请输入你的身份证号：");
+        System.out.println("请输入您的身份证号：");
         while (true) {
             Scanner sc = new Scanner(System.in);
             num = sc.next();
@@ -215,6 +211,17 @@ public class Input {
                 return num;
             System.out.println("身份证号有误，请重新输入");
         }
+    }
+
+    /**
+     * 获取家庭住址
+     */
+    public static String getAdress(){
+        String adress;
+        System.out.println("请输入您的家庭住址");
+        Scanner sc=new Scanner(System.in);
+        adress=sc.next();
+        return adress;
     }
 
     /**

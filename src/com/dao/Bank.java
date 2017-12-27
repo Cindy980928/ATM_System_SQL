@@ -1,6 +1,7 @@
 package com.dao;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.bean.User;
 import com.tools.Input;
@@ -24,17 +25,19 @@ public class Bank {
         //创建姓名
         user_new.setName(Input.getString());
         //更新数据库
+        user_new.setID_num(Input.getID());
+        user_new.setAge();
+        user_new.setSex();
         UserOperation.updataUser(user_new);
         //创建密码
         user_new.setPassword(Input.getPassword());
         //输入身份证号,并自动生成性别和年龄信息
-        user_new.setID_num(Input.getID()); // 123456199801228042
-        user_new.setAge();
-        user_new.setSex();
+
         //输入手机号
-        user_new.setPhone_num(Input.getMobileNum()); // 15912344409
-        //输入地址
+        user_new.setPhone_num(Input.getMobileNum());
         user_new.setRegistered_city("杭州");
+        //输入家庭住址
+        user_new.setAdress(Input.getAdress());
         //在数据库中记录登录日志
         UserOperation.addLogs(id, "于" + Time.getDateTimeNow() + "  创建帐号:" + id);
         //更新数据库
@@ -76,7 +79,10 @@ public class Bank {
             System.out.println("登录成功！当前帐号为：" + id_login);
             //记录登录日志
             UserOperation.addLogs(user_login.getId(), "于" + Time.getDateTimeNow() + "  登录系统。");
-        } else System.out.println("帐号或密码错误，登录失败。");
+        } else {
+            System.out.println("帐号或密码错误，登录失败。");
+        }
+
         return user_login;
     }
 
@@ -191,7 +197,20 @@ public class Bank {
         System.out.println("性别： "+user_LoginNow.getSex());
         System.out.println("年龄： "+user_LoginNow.getAge());
         System.out.println("身份证： "+user_LoginNow.getID_num());
+        System.out.println("家庭住址： "+user_LoginNow.getAdress());
         System.out.println("注册城市： "+user_LoginNow.getRegistered_city());
+    }
+
+    //修改信息
+    public void changeMessage(User user_LoginNow){
+        System.out.println("请输入要修改的手机号：");
+        Scanner in=new Scanner(System.in);
+        String num=in.next();
+        user_LoginNow.setPhone_num(num);
+        System.out.println("请输入要修改的家庭住址：");
+        String adress=in.next();
+        user_LoginNow.setAdress(adress);
+        System.out.println("修改成功！");
     }
 }
 
