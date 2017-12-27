@@ -199,6 +199,7 @@ public class Bank {
         System.out.println("身份证： "+user_LoginNow.getID_num());
         System.out.println("家庭住址： "+user_LoginNow.getAdress());
         System.out.println("注册城市： "+user_LoginNow.getRegistered_city());
+        System.out.println("手机号码： "+user_LoginNow.getPhone_num());
     }
 
     //修改信息

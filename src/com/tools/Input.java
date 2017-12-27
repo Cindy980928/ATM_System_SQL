@@ -51,7 +51,7 @@ public class Input {
         while (true) {
             key = sc1.next();
             if (!key.equals("y") && !key.equals("n")) {
-                System.out.println("无效操作，键入必须是 y 或  n ，请重新出入 :");
+                System.out.println("无效操作，键入必须是 y 或  n ，请重新输入 :");
                 continue;
             }
             break;
@@ -152,7 +152,13 @@ public class Input {
     public static String getString() {
         @SuppressWarnings("resource")
         Scanner sc = new Scanner(System.in);
-        return sc.next();
+        while(true) {
+            String name = sc.nextLine();
+            if (name.equals(""))
+                System.out.println("姓名不能为空！");
+            else
+                return name;
+        }
     }
 
     /**
@@ -161,17 +167,17 @@ public class Input {
      * @return 号码字符串
      */
     public static String getMobileNum() {
-        String num = null;
         System.out.println("请输入您的手机号码：");
         while (true) {
             @SuppressWarnings("resource")
             Scanner sc = new Scanner(System.in);
-            num = sc.next();
-            if (CheckUtils.isChinaPhoneLegal(num))
-                break;
+            String num = sc.nextLine();
+            if (num.equals(""))
+                System.out.println("手机号不能为空！");
+            else if (CheckUtils.isChinaPhoneLegal(num))
+                return num;
             else System.out.println("输入的不是合法的中国大陆号码，请重新输入:");
         }
-        return num;
     }
 
 
@@ -180,17 +186,24 @@ public class Input {
      *
      * @return 返回密码串
      */
-    @SuppressWarnings("resource")
     public static String getPassword() {
-        String pwd = null;
-        String pwd_rept = null;
+        String pwd = "";
+        String pwd_rept = "";
         while (true) {
             Scanner sc = new Scanner(System.in);
             System.out.println("请输入密码:");
-            pwd = sc.next();
+            while(true) {
+                pwd = sc.nextLine();
+                if (pwd.equals(""))
+                    System.out.println("密码不能为空！");
+                else if(!CheckUtils.isSix(pwd))
+                    System.out.println("密码必须为6位！");
+                else
+                    break;
+            }
             System.out.println("请再次输入密码:");
-            pwd_rept = sc.next();
-            if (!pwd.equals(pwd_rept)) {
+            pwd_rept = sc.nextLine();
+            if (!pwd.equals(pwd_rept)&&!pwd.equals("")) {
                 System.out.println("两次输入的密码不一致，请重新输入:");
             } else
                 return pwd_rept;
@@ -206,10 +219,13 @@ public class Input {
         System.out.println("请输入您的身份证号：");
         while (true) {
             Scanner sc = new Scanner(System.in);
-            num = sc.next();
-            if (CheckUtils.isChinaIDCardNum(num))
+            num = sc.nextLine();
+            if (num.equals(""))
+                System.out.println("身份证号不能为空！");
+            else if (CheckUtils.isChinaIDCardNum(num))
                 return num;
-            System.out.println("身份证号有误，请重新输入");
+            else
+                System.out.println("身份证号有误，请重新输入");
         }
     }
 
@@ -219,9 +235,14 @@ public class Input {
     public static String getAdress(){
         String adress;
         System.out.println("请输入您的家庭住址");
-        Scanner sc=new Scanner(System.in);
-        adress=sc.next();
-        return adress;
+        while(true) {
+            Scanner sc = new Scanner(System.in);
+            adress = sc.nextLine();
+            if (adress.equals(""))
+                System.out.println("地址不能为空！");
+            else
+                return adress;
+        }
     }
 
     /**
@@ -233,7 +254,7 @@ public class Input {
         String[] logIn = new String[2];
         @SuppressWarnings("resource")
         Scanner sc = new Scanner(System.in);
-        System.out.println("请输入帐号:");
+        System.out.println("请输入卡号:");
         logIn[0] = sc.next();
         System.out.println("请输入密码:");
         logIn[1] = sc.next();

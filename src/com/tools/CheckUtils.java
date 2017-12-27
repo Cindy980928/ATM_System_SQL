@@ -20,13 +20,20 @@ public class CheckUtils {
 			return m.matches();
 		}
 	/**
-	 *
+	 *判断是否符合身份证号规范
 	 *
 	 */
 	public static boolean isChinaIDCardNum(String IDNum) {
 		String regExp = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(IDNum);
+		return m.matches();
+	}
+
+	public static boolean isSix(String num){
+		String regExp="^\\d{6}$";
+		Pattern p=Pattern.compile(regExp);
+		Matcher m=p.matcher(num);
 		return m.matches();
 	}
 }

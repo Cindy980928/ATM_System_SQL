@@ -119,6 +119,7 @@ public class UserOperation {
                         "' ,balance='" + user.getBalance() +
                         "' ,ID_num ='" + user.getID_num() +
                         "' ,phone_num ='" + user.getPhone_num() +
+                        "' ,adress ='"+user.getAdress()+
                         "' ,registered_city ='" + user.getRegistered_city() +
                         "' ,age ='" + user.getAge() +
                         "' ,sex='" + user.getSex() +
@@ -183,28 +184,6 @@ public class UserOperation {
      *
      * @return 空账号的ID序列号
      */
-    public static int getSerial() {
-        int serialNum = 0;
-        Connection conn = DBUtils.getConnection();
-        String sql = "SELECT * FROM User WHERE id IS NULL ;";
-        Statement stat = null;
-        try {
-            stat = conn.createStatement();
-
-            ResultSet rs = stat.executeQuery(sql);
-
-            while (rs.next()) {
-
-//                serialNum = rs.getInt("serialNum");
-                serialNum = rs.getInt("id");
-
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return serialNum;
-    }
 
 
 }
