@@ -82,7 +82,7 @@ public class User {
     }
 
     public void setSex() {
-        String s = ID_num.substring(16);
+        String s = ID_num.substring(16,17);
         sex = Integer.parseInt(s) % 2 == 0 ? "女" : "男";
     }
 

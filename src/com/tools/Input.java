@@ -1,5 +1,12 @@
 package com.tools;
 
+import com.bean.User;
+import com.dao.DBUtils;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -77,7 +84,7 @@ public class Input {
                 try {
                     num = Double.parseDouble(str);
                 } catch (NumberFormatException e) {
-                    System.out.println("输入的不是数字!，请重新输入");
+                    System.out.println("输入的不是一位数字!，请重新输入");
                     continue;
                 }
                 break;
@@ -197,7 +204,7 @@ public class Input {
                 if (pwd.equals(""))
                     System.out.println("密码不能为空！");
                 else if(!CheckUtils.isSix(pwd))
-                    System.out.println("密码必须为6位！");
+                    System.out.println("密码必须为6位数字！");
                 else
                     break;
             }
@@ -214,20 +221,48 @@ public class Input {
      *获取合法身份证号
      *
      */
-    public static String getID() {
+    public static String getID() throws SQLException {
         String num;
         System.out.println("请输入您的身份证号：");
         while (true) {
             Scanner sc = new Scanner(System.in);
             num = sc.nextLine();
-            if (num.equals(""))
-                System.out.println("身份证号不能为空！");
-            else if (CheckUtils.isChinaIDCardNum(num))
-                return num;
-            else
-                System.out.println("身份证号有误，请重新输入");
+            DBUtils dbutil=new DBUtils();
+            String sql = "select ID_num from User WHERE ID_num= "+num+";";
+            Statement statement = dbutil.getConnection().createStatement();
+            ResultSet res = statement.executeQuery(sql);
+            if (!res.next()) {
+                //res is null
+                if (num.equals(""))
+                    System.out.println("身份证号不能为空！请重新输入");
+                else if (CheckUtils.isChinaIDCardNum(num))
+                    return num;
+                else
+                    System.out.println("身份证号有误，请重新输入");
+            } else {
+                // res is not null
+                System.out.println("该账号已被注册，请重新输入");
+            }
+
         }
     }
+    /*
+    String sql = "select ID_num from User; ";
+        DBUtils dbutil=new DBUtils();
+        String id1=user_LoginNow.getId();
+        String sql="delete  from User WHERE id='" + id1 + "'; ";//生成一条sql语句
+        Statement stmt=dbutil.getConnection().createStatement();//创建Statement对象
+        stmt.executeUpdate(sql);//执行sql语句
+    *
+    * Statement statement = conn.createStatement();
+ResultSet res = statement.executeQuery(selectSql);
+if (!res.next()) {
+    //res is null
+} else {
+    // res is not null
+}
+
+    * */
 
     /**
      * 获取家庭住址
@@ -259,5 +294,21 @@ public class Input {
         System.out.println("请输入密码:");
         logIn[1] = sc.next();
         return logIn;
+    }
+
+    /**
+     * 输入要注销的卡号
+     */
+    public static String getCard() throws SQLException {
+        Scanner sc = new Scanner(System.in);
+        while(true) {
+            String card = sc.next();
+            Statement statement = null;
+            ResultSet rs = statement.executeQuery("select id FROM user");
+            if (!rs.equals(card)) {
+                System.out.println("卡号不存在");
+            } else
+                return card;
+        }
     }
 }

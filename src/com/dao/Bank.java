@@ -1,9 +1,14 @@
 package com.dao;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.bean.User;
+import com.menu.UserMenu;
+import com.tools.CheckUtils;
 import com.tools.Input;
 import com.tools.Time;
 
@@ -11,11 +16,12 @@ public class Bank {
     /**
      * 注册功能
      */
-    public User singIn() {
-        //在数据库中插入新空用户，自动生成ID序列号
-        UserOperation.createNewUser();
+    public User singIn() throws SQLException {
         //创建帐号对象
         User user_new = new User();
+        user_new.setID_num(Input.getID());
+        //在数据库中插入新空用户，自动生成ID序列号
+        UserOperation.createNewUser();
         String id = UserOperation.addUser();
         user_new.setId(id);
         //在数据库中创建该用户的日志表
@@ -25,7 +31,7 @@ public class Bank {
         //创建姓名
         user_new.setName(Input.getString());
         //更新数据库
-        user_new.setID_num(Input.getID());
+//        user_new.setID_num(Input.getID());
         user_new.setAge();
         user_new.setSex();
         UserOperation.updataUser(user_new);
@@ -66,8 +72,8 @@ public class Bank {
     /**
      * 登录功能
      */
-    public User login() {
 
+    public User login() {
         System.out.println("请输入帐号:");
         String id_login = Input.getString();
         User user_login = UserOperation.findUser(id_login);
@@ -75,14 +81,12 @@ public class Bank {
         String pws_login = Input.getString();
         //判断账户是否存在、密码是否匹配
         if (user_login != null && user_login.getPassword().equals(pws_login)) {
-
             System.out.println("登录成功！当前帐号为：" + id_login);
             //记录登录日志
             UserOperation.addLogs(user_login.getId(), "于" + Time.getDateTimeNow() + "  登录系统。");
         } else {
             System.out.println("帐号或密码错误，登录失败。");
         }
-
         return user_login;
     }
 
@@ -207,11 +211,57 @@ public class Bank {
         System.out.println("请输入要修改的手机号：");
         Scanner in=new Scanner(System.in);
         String num=in.next();
+        while(!CheckUtils.isChinaPhoneLegal(num)){
+            System.out.println("输入的不是合法的中国大陆号码，请重新输入:");
+            num=in.next();
+        }
         user_LoginNow.setPhone_num(num);
         System.out.println("请输入要修改的家庭住址：");
         String adress=in.next();
         user_LoginNow.setAdress(adress);
         System.out.println("修改成功！");
+        //更新数据库
+        UserOperation.updataUser(user_LoginNow);
+
+    }
+
+    /*
+    *修改密码
+     */
+    public void changePassword(User user_LoginNow){
+        System.out.println("请输入新密码：");
+        Scanner in=new Scanner(System.in);
+        String password=in.next();
+        while(!CheckUtils.isSix(password)){
+            System.out.println("密码必须为六位数字");
+            password=in.next();
+        }
+        user_LoginNow.setPassword(password);
+        System.out.println("密码修改成功！");
+        //更新数据库
+        UserOperation.updataUser(user_LoginNow);
+    }
+
+    /*
+    *  注销账户
+    */
+    public void unsubscribe(User user_LoginNow) throws SQLException {
+        System.out.println("请输入密码");
+        Scanner in=new Scanner(System.in);
+        String password=in.next();
+        while(!password.equals(user_LoginNow.getPassword()))
+        {
+            System.out.println("密码错误，请重新输入");
+            password=in.next();
+        }
+
+        DBUtils dbutil=new DBUtils();
+        String id1=user_LoginNow.getId();
+        String sql="delete  from User WHERE id='" + id1 + "'; ";//生成一条sql语句
+        Statement stmt=dbutil.getConnection().createStatement();//创建Statement对象
+        stmt.executeUpdate(sql);//执行sql语句
+        System.out.println("注销成功");
+        //        String sql = "select * from User WHERE id='" + id + "'; ";
     }
 }
 

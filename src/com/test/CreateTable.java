@@ -25,6 +25,7 @@ public class CreateTable {
                 "`adress` VARCHAR ( 255 ) DEFAULT NULL,"+
                 "`phone_num` VARCHAR ( 255 ) DEFAULT NULL," +
                 "PRIMARY KEY ( `id` ) " +
+                "UNIQUE (`ID_num`)"+
                 ") ENGINE = INNODB AUTO_INCREMENT = 10000000000000000 DEFAULT CHARSET = utf8;";
         Statement stat = null;
         try {

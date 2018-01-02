@@ -82,7 +82,7 @@ public class UserOperation {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (u.getId().equals(" ")) return null;
+        if (u.getId().equals("")) return null;
         else return u;
     }
 
